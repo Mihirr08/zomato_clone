@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "770441884062",
+    "project_id": "zomatoclone-c7cbf",
+    "storage_bucket": "zomatoclone-c7cbf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770441884062:android:a6aefe474963810bfca68f",
+        "android_client_info": {
+          "package_name": "com.example.zomato_ui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "770441884062-nitrhbjcber2o26oe6gpbd6bmajogvh7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFdBXbC04wl_jSSZar8CjvSUcUD33t15A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "770441884062-nitrhbjcber2o26oe6gpbd6bmajogvh7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "770441884062-hbvh9li801pb3s627ug8tmttjl6ffhqa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.zomatoUi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
