@@ -15,16 +15,16 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(top: 18.0,left: 8,right: 8),
+        padding: const EdgeInsets.only(top: 35,left: 8,right: 8),
         child: Column(
           children:  [
             Hero(
                 tag: "topSearchField",
-                child: TopSearchField(fromHome: false,
+                child: TopSearchField(isText: false,
                   leadingIcon: Material(
                     child: GestureDetector(onTap: (){
                       Navigator.pop(context);
-                    }, child: const Icon(Icons.arrow_back_ios,color: ColorConstants.redColor)),
+                    }, child:  Icon(Icons.arrow_back_ios,color: Theme.of(context).primaryColor)),
                   ),
                 )),
           ],

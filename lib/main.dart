@@ -1,62 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:zomato_ui/Constants/ColorConstants.dart';
 import 'package:zomato_ui/Constants/ThemeConstants.dart';
-import 'package:zomato_ui/SearchField/TopSearchField.dart';
-import 'package:zomato_ui/Widgets/SearchScreen.dart';
-import 'package:zomato_ui/Widgets/base_card.dart';
+import 'package:zomato_ui/Constants/route_constants.dart';
+import 'package:zomato_ui/Constants/shared_pref_singleton.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+import 'Modules/theme_screen/theme_bloc/theme_bloc.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SharedPrefSingleton.sharedInstance.init();
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeBloc themeBloc = ThemeBloc();
+
+  late ThemeData currentTheme;
+
+  @override
+  void initState() {
+    super.initState();
+    currentTheme = ThemeConstant().getThemeByNumber(SharedPrefSingleton
+            .sharedInstance
+            .getInt(SharedPrefKeys.themeNumber.name) ??
+        0);
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Zomato',
-      theme: ThemeConstant.primaryTheme,themeMode: ThemeMode.light,
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 24.0),
-        child: Column(children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const  SearchScreen();
-              }));
-            },
-            child: const Hero(tag: "topSearchField", child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
-              child: TopSearchField(fromHome: true,leadingIcon: Icon(Icons.search,color: ColorConstants.redColor,)),
-            )),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return const BaseCard();
-              },
-              itemCount: 10,
-            ),
-          )
-        ]),
+    return BlocProvider(
+      create: (context) => themeBloc,
+      child: BlocBuilder(
+        bloc: themeBloc,
+        builder: (context, state) {
+          if (state is ThemeChanged) {
+            currentTheme = state.newTheme;
+          }
+          return MaterialApp(debugShowCheckedModeBanner: false,
+            title: 'Tomato',
+            theme:
+                currentTheme, //ThemeConstant.primaryTheme, themeMode: ThemeMode.light,
+            // home: const SplashScreen(),
+            onGenerateRoute: RouteConstants.generateRoute,
+            initialRoute: RouteConstants.splashScreen,
+          );
+        },
       ),
     );
   }

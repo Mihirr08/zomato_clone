@@ -12,4 +12,25 @@ class ThemeConstant {
       primarySwatch: Colors.red,
       splashColor: Colors.red.withOpacity(0.3),
       scaffoldBackgroundColor: const Color(0xffF7EFEE));
+
+  static ThemeData secondTheme = ThemeData(
+      primaryColor: Colors.purple,
+      fontFamily: GoogleFonts.comicNeue(
+        fontSize: SizeConstants.defaultFontSize,
+      ).fontFamily,
+      primaryIconTheme: const IconThemeData(color: Colors.purple),
+      primarySwatch: Colors.purple,
+      splashColor: Colors.purple.withOpacity(0.3),
+      scaffoldBackgroundColor: const Color(0xffF7EFEE));
+
+  ThemeData getThemeByNumber(int number) {
+    switch (number) {
+      case 0:
+        return primaryTheme;
+      case 1:
+        return secondTheme;
+      default:
+        return primaryTheme;
+    }
+  }
 }
