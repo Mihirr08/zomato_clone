@@ -12,20 +12,19 @@ class HeartIcon extends StatefulWidget {
 }
 
 class _HeartIconState extends State<HeartIcon>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   bool selected = false;
   late AnimationController _lottieController;
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
     super.initState();
+    print("Init State called $selected");
     _lottieController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 0));
-    if (!selected) {
-      _lottieController.reverse();
-    } else {
-      _lottieController.forward();
-    }
   }
 
   @override
@@ -36,9 +35,9 @@ class _HeartIconState extends State<HeartIcon>
             selected = !selected;
             print("Selected is $selected");
             if (selected) {
-              _lottieController.reverse();
-            } else {
               _lottieController.forward();
+            } else {
+              _lottieController.reverse();
             }
           });
 
@@ -52,9 +51,9 @@ class _HeartIconState extends State<HeartIcon>
             Container(
           child: Lottie.asset(AppConstants.heartLottieFile,
               controller: _lottieController, animate: true, onLoaded: (comp) {
-            _lottieController
-              ..duration = comp.duration
-              ..forward();
+            // _lottieController
+            //   ..duration = comp.duration
+            //   ..forward();
           },
               repeat: false,
               height: 50,

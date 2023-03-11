@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zomato_ui/SearchField/TopSearchField.dart';
-
-import '../Constants/ColorConstants.dart';
+import 'package:zomato_ui/baseWidgets/TopSearchField.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -15,16 +13,21 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(top: 35,left: 8,right: 8),
+        padding: const EdgeInsets.only(top: 35, left: 8, right: 8),
         child: Column(
-          children:  [
+          children: [
             Hero(
                 tag: "topSearchField",
-                child: TopSearchField(isText: false,
+                child: TopSearchField(
+                  isText: false,
                   leadingIcon: Material(
-                    child: GestureDetector(onTap: (){
-                      Navigator.pop(context);
-                    }, child:  Icon(Icons.arrow_back_ios,color: Theme.of(context).primaryColor)),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(Icons.arrow_back_ios,
+                          color: Theme.of(context).primaryColor),
+                    ),
                   ),
                 )),
           ],

@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:zomato_ui/Constants/ColorConstants.dart';
 import 'package:zomato_ui/Constants/app_constants.dart';
@@ -6,24 +7,56 @@ import 'package:zomato_ui/baseWidgets/base_hero.dart';
 import '../Constants/route_constants.dart';
 import 'heartIcon.dart';
 
-class BaseCard extends StatelessWidget {
-  const BaseCard({Key? key,   this.imageName,   this.title, required this.index}) : super(key: key);
+class BaseCard extends StatefulWidget {
+  const BaseCard(
+      {Key? key,
+      this.imageName,
+      this.title,
+      required this.index,
+      this.discount})
+      : super(key: key);
 
-  final String? imageName;
+  final List<String>? imageName;
   final String? title;
+  final String? discount;
   final int index;
 
   @override
+  State<BaseCard> createState() => _BaseCardState();
+}
+
+class _BaseCardState extends State<BaseCard> {
+  late CarouselController _carouselController;
+
+  int currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _carouselController = CarouselController();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return InkWell(onTap: (){
-      Navigator.pushNamed(context,
-          RouteConstants.detailScreen, arguments: "${AppConstants.baseCardHeroTag}$index");
-    },
+    return InkWell(
+      key: widget.key,
+      onTap: () {
+        Navigator.pushNamed(context, RouteConstants.detailScreen, arguments: {
+          "heroTag": "${AppConstants.baseCardHeroTag}${widget.index}",
+          "imageName": widget.imageName,
+          "currentIndex": currentIndex,
+        });
+      },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 8),
-        child: Container(decoration: BoxDecoration(boxShadow: [
-          BoxShadow(color: Colors.grey.withOpacity(0.3),blurRadius: 10,spreadRadius: 1,offset: const Offset(0,4)),
-        ]),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+        child: Container(
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                blurRadius: 10,
+                spreadRadius: 1,
+                offset: const Offset(0, 4)),
+          ]),
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -36,18 +69,41 @@ class BaseCard extends StatelessWidget {
                         borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(20),
                             topLeft: Radius.circular(20)),
-                        child: BaseHero(tag: "${AppConstants.baseCardHeroTag}$index",
-                          child: Image.asset(
-                            imageName ?? "images/lapinoz_pizza.jpg",
-                          ),
-                        ),
+                        child: BaseHero(
+                            tag:
+                                "${AppConstants.baseCardHeroTag}${widget.index}",
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: CarouselSlider(
+                                carouselController: _carouselController,
+                                options: CarouselOptions(
+                                    height: 200,
+                                    onPageChanged: (index, _) {
+                                      currentIndex = index;
+                                    }),
+                                items: widget.imageName?.map((image) {
+                                  return Image.network(
+                                    image,
+                                    height: 190,
+                                    fit: BoxFit.fill,
+                                  );
+                                }).toList(),
+                              ),
+                            )),
                       ),
-                      Container(
-                        decoration:  BoxDecoration(
-                            gradient: LinearGradient(
-                                colors: [Colors.black.withOpacity(0.5), Colors.transparent],
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter)),height: 190,
+                      IgnorePointer(
+                        ignoring: true,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                Colors.black.withOpacity(0.5),
+                                Colors.transparent
+                              ],
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter)),
+                          height: 190,
+                        ),
                       ),
                       Align(
                         alignment: Alignment.topLeft,
@@ -67,13 +123,13 @@ class BaseCard extends StatelessWidget {
                                       Radius.circular(5),
                                     ),
                                   ),
-                                  child:  Text(
-                                    title ?? "",
+                                  child: Text(
+                                    widget.title ?? "",
                                     style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
                                   )),
-                              HeartIcon(onValueChanged: (value){
+                              HeartIcon(onValueChanged: (value) {
                                 debugPrint("Value is $value");
                               }),
                             ],
@@ -151,8 +207,8 @@ class BaseCard extends StatelessWidget {
                       Radius.circular(20),
                     ),
                   ),
-                  child: Row(children: const [
-                    Padding(
+                  child: Row(children: [
+                    const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Icon(
                         Icons.percent_outlined,
@@ -160,8 +216,8 @@ class BaseCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "50% OFF",
-                      style: TextStyle(
+                      "${widget.discount ?? "00"}% OFF",
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 16),

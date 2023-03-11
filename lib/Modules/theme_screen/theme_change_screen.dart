@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zomato_ui/Constants/ThemeConstants.dart';
-import 'package:zomato_ui/Constants/shared_pref_singleton.dart';
 import 'package:zomato_ui/Modules/theme_screen/theme_bloc/theme_bloc.dart';
-import 'package:zomato_ui/SearchField/TopSearchField.dart';
+import 'package:zomato_ui/baseWidgets/TopSearchField.dart';
 
 class ThemeChangeScreen extends StatelessWidget {
   const ThemeChangeScreen({Key? key}) : super(key: key);
@@ -50,7 +48,7 @@ class ThemeChangeScreen extends StatelessWidget {
                                 text: "Preview for search field"),
                             ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    primary: Theme.of(context).primaryColor),
+                                    backgroundColor: Theme.of(context).primaryColor),
                                 onPressed: () {},
                                 child: const Text(
                                   "Button",

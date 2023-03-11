@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:zomato_ui/Constants/route_constants.dart';
 
-import 'home_page.dart';
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -24,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return FutureBuilder(future: navigateTime(),
       builder: (context,snapshot) {
       if(snapshot.data == true){
-        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           Navigator.pushNamedAndRemoveUntil(
               context, RouteConstants.homePage, (route) => false);
         });
